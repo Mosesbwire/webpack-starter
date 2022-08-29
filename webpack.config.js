@@ -1,12 +1,15 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TransformRuntime = require('@babel/plugin-transform-runtime')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
+  
   mode: 'development',
   entry: {
     bundle: path.resolve(__dirname, 'src/index.js'),
+   
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -37,7 +40,16 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'],
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  targets: {
+                    esmodules: true,
+                  },
+                },
+              ],
+            ],
           },
         },
       },
@@ -49,7 +61,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Webpack App',
+      title: 'Humour Me',
       filename: 'index.html',
       template: 'src/template.html',
     }),
